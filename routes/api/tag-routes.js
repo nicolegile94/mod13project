@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Tag, Product, ProductTag } = require('../../models');
+const { Tag, Product, ProductTag, Category } = require('../../models');
 
 // The `/api/tags` endpoint
 
@@ -9,6 +9,12 @@ router.get('/', (req, res) => {
   Tag.findAll({
     attributes: [
       'tag_name'
+    ],
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock']
+      }
     ]
   })
   .then(dbTagData => res.json(dbTagData))
@@ -28,8 +34,14 @@ router.get('/:id', (req, res) => {
     attributes: [
         'id',
         'tag_name'
+    ],
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock']
+      }
     ]
-})
+  })
 .then(dbTagData => {
     if (!dbTagData) {
         res.status(400).json({message: 'No tag found with this id'});
