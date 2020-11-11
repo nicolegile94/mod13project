@@ -7,8 +7,7 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   Tag.findAll({
-    include: [
-      'id',
+    attributes: [
       'tag_name'
     ]
   })
@@ -26,7 +25,7 @@ router.get('/:id', (req, res) => {
     where: {
         id: req.params.id
     },
-    include: [
+    attributes: [
         'id',
         'tag_name'
     ]
@@ -59,7 +58,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
   Tag.update(req.body, {
-    individualHooks: true,
+    //individualHooks: true,
     where: {
         id: req.params.id
   }
